@@ -28,6 +28,11 @@ public class BaseBall {
         if (this == o) return true;
         if (!(o instanceof BaseBall)) return false;
         BaseBall baseBall = (BaseBall) o;
-        return number == baseBall.number && position == baseBall.position;
+        return number == baseBall.number;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(number);
     }
 }
