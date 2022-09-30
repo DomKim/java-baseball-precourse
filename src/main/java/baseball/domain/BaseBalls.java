@@ -21,21 +21,26 @@ public class BaseBalls {
         return baseBalls;
     }
 
-    public static LinkedHashSet<BaseBall> generateRandomBalls(int listSize){
+    public static BaseBalls generateRandomBalls(int listSize){
         LinkedHashSet<BaseBall> baseBalls = new LinkedHashSet<>();
-
         int position = 1;
+
         while (listSize == baseBalls.size()) {
             int randomNumber = Randoms.pickNumberInRange(GameRules.MIN_NUMBER_IN_RANGE.getValue(),GameRules.MAX_NUMBER_IN_RANGE.getValue());
-            if (baseBalls.add(BaseBall.of(randomNumber, position))) {
-                position++;
-            }
+            position = ifAddedToBaseBallsIncreasePosition(baseBalls, position, randomNumber);
         }
 
-        return baseBalls;
+        return new BaseBalls(baseBalls);
     }
 
-    public static LinkedHashSet<BaseBall> generateBallsForPlayer(int listSize, int threeNumbers){
+    private static int ifAddedToBaseBallsIncreasePosition(LinkedHashSet<BaseBall> baseBalls, int position, int randomNumber) {
+        if (baseBalls.add(BaseBall.of(randomNumber, position))) {
+            position++;
+        }
+        return position;
+    }
+
+    public static BaseBalls generateBallsForPlayer(int listSize, int threeNumbers){
         String[] numbers = Integer.toString(threeNumbers).split(SPLITTER);
         BaseBallException.overSizeNumberException(numbers);
         LinkedHashSet<BaseBall> baseBalls = new LinkedHashSet<>();
@@ -45,7 +50,7 @@ public class BaseBalls {
         }
         BaseBallException.duplicatedNumberException(baseBalls.size());
 
-        return baseBalls;
-
+        return new BaseBalls(baseBalls);
     }
+
 }
